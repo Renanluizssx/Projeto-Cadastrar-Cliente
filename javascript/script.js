@@ -25,6 +25,9 @@ cancelar.addEventListener("click", fecharjanela);
 salvar.addEventListener("click", salvarcadastro);
 excluir.addEventListener("click", fecharjanela);
 button.addEventListener("click", abrirjanela);
+button.addEventListener("click", () => {
+    return document.getElementById("clientenome").dataset.index = "new"
+})
 botões = document.getElementById("botões2"); 
 let bloco = document.querySelector("#cadastro");
 bloco.addEventListener("click", editardeletar);
@@ -37,7 +40,6 @@ function limpartela() {
     let campos = document.querySelectorAll(".cd");
     campos.forEach((campo) => campo.innerHTML = ``);
     //campos.innerHTML = ``
-    console.log(campos)
     //let campos = document.querySelectorAll(".cd");
     //campos.forEach((campos) => campos.parentNode.removeChild(campos))
 }   
@@ -46,7 +48,6 @@ function editardeletar(event) {
     //event mostra as informações gerais
     //target alvo
     //tipo
-    console.log(event)
     if(event.target.type === "submit") {
     //classname me retorna as minhas classes
     if(event.target.className === "cadastrar") {
@@ -66,8 +67,7 @@ else {
     //let index = event.target.id.split("-")[1]
     let [ação, index] = event.target.id.split("-")
     console.log(index)
-    //console.log(ação)
-    //console.log(index)
+
     if (ação === "editar") {
         editarcliente(index);
         
@@ -81,19 +81,19 @@ else {
 }
 
 function PreencherCampos(cliente) {
-    letdocument.getElementById("clientenome").value = cliente.nome;
+    document.getElementById("clientenome").value = cliente.nome;
     document.getElementById("emailcliente").value = cliente.email;
     document.getElementById("celularcliente").value = cliente.celular;
     document.getElementById("cidadecliente").value = cliente.cidade;
     //document.getElementById("clientenome").classList.remove("novo")
     //não entendi cliente.index
     nome = document.getElementById("clientenome").dataset.index = cliente.index;
-    console.log(nome);
 }   
 function editarcliente(index) {
     let cliente = lercliente()[index]
     console.log(cliente)
     cliente.index = index
+    console.log(cliente.index)
     PreencherCampos(cliente)
     abrirjanela();
 }
@@ -137,7 +137,10 @@ let deletar = (index) => {
 //atualizar
 function atualizarcliente(index, dado) {
     let db_cliente = getLocalStorage("db_cliente")
+    console.log(db_cliente)
     db_cliente[index] = dado
+    console.log(db_cliente[index])
+    console.log(index)
     setLocalStorage("db_cliente", db_cliente)
 }
 //leitura
@@ -184,7 +187,8 @@ function salvarcadastro () {
         cidade:cidadecliente.value
     }
     index = document.getElementById("clientenome").dataset.index 
-    if(index === 'new') {
+    console.log(index)
+        if(index === 'new') {
         
         criarcliente(cliente)
    
@@ -193,6 +197,7 @@ function salvarcadastro () {
     }
     else {
         atualizarcliente(index, cliente)
+        
         atualizartela()
         fecharjanela()
     }
